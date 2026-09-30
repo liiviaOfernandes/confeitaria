@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#f7f0e6">
+  <meta name="description" content="Confeittaria — delivery de doces, salgados, bebidas, presentes e cestas em Monte Carmelo.">
+  <title>Confeittaria | Delivery</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="#inicio" aria-label="Confeittaria - Início">
+        <img src="assets/logo.png" alt="Logo Confeittaria">
+        <span><strong id="brandName">Confeittaria</strong><small id="brandTagline">Doces autorais e exclusivos</small></span>
+      </a>
+      <div class="header-actions">
+        <button class="icon-btn desktop-only" id="searchFocusBtn" aria-label="Pesquisar produtos"></button>
+        <button class="icon-btn cart-btn" id="openCartBtn" aria-label="Abrir carrinho"><span class="cart-count" id="cartCount">0</span></button>
+      </div>
+    </div>
+  </header>
+
+  <main id="inicio">
+    <section class="mobile-intro container">
+      <div class="location-row">
+        <div><span class="location-label">Entrega em</span><strong id="cityText">Monte Carmelo, MG</strong></div>
+        <span class="store-status" id="storeStatus">Aberto para pedidos</span>
+      </div>
+      <div class="search-wrap">
+        <span class="search-icon" aria-hidden="true"></span>
+        <input id="searchInput" type="search" placeholder="Busque por doces, salgados, bebidas..." autocomplete="off">
+        <button class="clear-search" id="clearSearch" aria-label="Limpar busca">Limpar</button>
+      </div>
+    </section>
+
+    <section class="hero container" aria-labelledby="heroTitle">
+      <div class="hero-media">
+        <img src="assets/products/torta-frutas-vermelhas-real.jpeg" alt="Torta de frutas vermelhas">
+        <div class="hero-media-card"><img src="assets/products/chocolate-quente-real.jpeg" alt="Chocolate cremoso"></div>
+      </div>
+      <div class="hero-overlay"></div>
+      <div class="hero-copy">
+        <span class="eyebrow" id="heroEyebrow">Sabor em cada momento</span>
+        <h1 id="heroTitle">Agora também no seu lar</h1>
+        <p id="heroText">Doces, salgados, bebidas e presentes preparados com o cuidado da Confeittaria.</p>
+        <a href="#cardapio" class="primary-btn">Ver cardápio <span aria-hidden="true">→</span></a>
+      </div>
+    </section>
+
+    <section class="container categories-section" aria-label="Categorias">
+      <div class="category-strip" id="categoryStrip"></div>
+    </section>
+
+    <section class="container content-section" id="cardapio">
+      <div class="section-heading">
+        <div><span class="section-kicker">Disponível hoje</span><h2>Cardápio do dia</h2></div>
+        <button class="text-btn" id="showAllBtn">Ver todos</button>
+      </div>
+      <div class="filter-row" id="filterRow"></div>
+      <div class="catalog-message hidden" id="catalogMessage"></div>
+      <div class="product-grid" id="productGrid"></div>
+    </section>
+
+    <section class="container experience-banner">
+      <img src="assets/products/ambiente-real.jpeg" alt="Ambiente da Confeittaria">
+      <div class="experience-overlay"></div>
+      <div class="experience-copy"><span>Feito para acompanhar seus momentos</span><h2>Da nossa vitrine para a sua mesa.</h2><p>Escolha seus favoritos, monte o pedido e finalize direto pelo WhatsApp.</p></div>
+    </section>
+
+    <section class="container contact-card" id="contato">
+      <div><span class="section-kicker">Atendimento</span><h2>Fale com a Confeittaria</h2><p id="addressText"></p><p id="phoneText"></p></div>
+      <a id="whatsappContact" class="secondary-btn" href="#" target="_blank" rel="noopener">Chamar no WhatsApp</a>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner"><div><strong>Confeittaria</strong><p>Doces autorais, salgados, bebidas e presentes.</p></div><small id="footerNotice">Cardápio sujeito à disponibilidade do dia.</small></div>
+  </footer>
+
+  <nav class="bottom-nav" aria-label="Navegação principal">
+    <a href="#inicio" class="active" data-nav="inicio"><span class="nav-icon home-icon"></span><span>Início</span></a>
+    <a href="#cardapio" data-nav="cardapio"><span class="nav-icon grid-icon"></span><span>Cardápio</span></a>
+    <button id="bottomCartBtn"><span class="nav-icon bag-icon"></span><span>Carrinho</span><b id="bottomCartCount">0</b></button>
+    <a href="#contato" data-nav="contato"><span class="nav-icon user-icon"></span><span>Contato</span></a>
+  </nav>
+
+  <div class="drawer-backdrop" id="drawerBackdrop"></div>
+  <aside class="cart-drawer" id="cartDrawer" aria-hidden="true">
+    <div class="drawer-header"><div><span class="section-kicker">Seu pedido</span><h2>Carrinho</h2></div><button class="close-btn" id="closeCartBtn" aria-label="Fechar carrinho">×</button></div>
+    <div class="cart-items" id="cartItems"></div>
+    <div class="cart-empty" id="cartEmpty"><span class="bag-large"></span><h3>Seu carrinho está vazio</h3><p>Adicione seus favoritos do cardápio para começar.</p></div>
+    <div class="cart-summary" id="cartSummary">
+      <div><span>Subtotal</span><strong id="cartSubtotal">R$ 0,00</strong></div>
+      <small id="minimumOrderText"></small>
+      <button class="primary-btn full" id="checkoutBtn">Continuar pedido</button>
+    </div>
+  </aside>
+
+  <div class="modal-backdrop" id="checkoutBackdrop"></div>
+  <section class="checkout-modal" id="checkoutModal" aria-hidden="true" aria-labelledby="checkoutTitle">
+    <div class="modal-header"><div><span class="section-kicker">Finalização</span><h2 id="checkoutTitle">Dados do pedido</h2></div><button class="close-btn" id="closeCheckoutBtn" aria-label="Fechar">×</button></div>
+    <form id="checkoutForm">
+      <div class="field-grid two"><label>Nome<input id="customerName" required placeholder="Seu nome"></label><label>WhatsApp<input id="customerPhone" required inputmode="tel" placeholder="(34) 99999-9999"></label></div>
+      <div class="choice-group"><span>Como deseja receber?</span><div class="choice-row" id="fulfillmentChoices"></div></div>
+      <label id="addressField">Endereço para entrega<textarea id="customerAddress" rows="2" placeholder="Rua, número, bairro e referência"></textarea></label>
+      <div class="field-grid two"><label>Forma de pagamento<select id="paymentMethod"><option>Pix</option><option>Dinheiro</option><option>Cartão na entrega</option><option>Link de pagamento</option></select></label><label id="changeField">Troco para<input id="changeFor" placeholder="Ex.: R$ 100,00"></label></div>
+      <label>Observações<textarea id="orderNotes" rows="3" placeholder="Ex.: retirar ingrediente, horário preferido, mensagem para presente..."></textarea></label>
+      <div class="checkout-total"><span>Total estimado</span><strong id="checkoutTotal">R$ 0,00</strong></div>
+      <p class="checkout-note">O pedido será enviado pelo WhatsApp para confirmação de disponibilidade, prazo e valor final.</p>
+      <button class="primary-btn full" type="submit">Enviar pedido pelo WhatsApp</button>
+    </form>
+  </section>
+
+  <div class="toast" id="toast" role="status"></div>
+
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

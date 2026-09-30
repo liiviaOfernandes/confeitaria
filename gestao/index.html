@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#f7f0e6">
+  <meta name="robots" content="noindex,nofollow,noarchive">
+  <title>Gestão | Confeittaria</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+  <section class="login-screen" id="loginScreen">
+    <div class="login-card">
+      <img src="../assets/logo.png" alt="Confeittaria">
+      <span class="eyebrow">Área restrita</span>
+      <h1>Gestão da Confeittaria</h1>
+      <p>Entre para atualizar o cardápio do dia, produtos e informações do delivery.</p>
+      <form id="loginForm">
+        <label>Usuário<input id="loginUser" autocomplete="username" required></label>
+        <label>Senha<input id="loginPass" type="password" autocomplete="current-password" required></label>
+        <button class="primary-btn" type="submit">Entrar</button>
+      </form>
+      <small>Ambiente demonstrativo. Em produção, use autenticação no servidor.</small>
+    </div>
+  </section>
+
+  <div class="admin-shell hidden" id="adminShell">
+    <aside class="sidebar">
+      <div class="side-brand"><img src="../assets/logo.png" alt=""><div><strong>Confeittaria</strong><small>Gestão do delivery</small></div></div>
+      <nav class="admin-nav">
+        <button class="active" data-panel="dashboard">Visão geral</button>
+        <button data-panel="today">Cardápio do dia</button>
+        <button data-panel="products">Produtos</button>
+        <button data-panel="settings">Loja e pedidos</button>
+        <button data-panel="backup">Backup</button>
+      </nav>
+      <div class="side-footer"><a href="../index.html" target="_blank" rel="noopener">Abrir delivery</a><button id="logoutBtn">Sair</button></div>
+    </aside>
+
+    <main class="admin-main">
+      <header class="admin-header">
+        <div><span class="eyebrow">Painel administrativo</span><h1 id="panelTitle">Visão geral</h1></div>
+        <div class="header-actions"><span class="save-state" id="saveState">Alterações salvas</span><button class="mobile-menu" id="mobileMenuBtn" aria-label="Abrir menu">Menu</button></div>
+      </header>
+
+      <section class="panel active" id="panel-dashboard">
+        <div class="status-card" id="storeStatusCard"><div><span class="eyebrow">Status da loja</span><h2 id="dashboardStoreStatus">Aberta para pedidos</h2><p id="dashboardUpdated"></p></div><label class="switch-row"><span>Receber pedidos</span><input type="checkbox" id="quickStoreOpen"><i></i></label></div>
+        <div class="stats-grid">
+          <article><span>Produtos cadastrados</span><strong id="statProducts">0</strong></article>
+          <article><span>No cardápio hoje</span><strong id="statToday">0</strong></article>
+          <article><span>Esgotados</span><strong id="statSoldOut">0</strong></article>
+          <article><span>Destaques</span><strong id="statFeatured">0</strong></article>
+        </div>
+        <div class="dashboard-grid">
+          <article class="admin-card"><div class="card-head"><div><span class="eyebrow">Atalho</span><h2>Cardápio do dia</h2></div><button class="soft-btn" data-go="today">Gerenciar</button></div><p>Ative apenas o que está disponível hoje e marque rapidamente produtos esgotados.</p><div id="todayPreview" class="mini-list"></div></article>
+          <article class="admin-card"><div class="card-head"><div><span class="eyebrow">Atalho</span><h2>Catálogo</h2></div><button class="soft-btn" data-go="products">Produtos</button></div><p>Cadastre novos itens, altere valores, fotos, categorias e destaques do delivery.</p><button class="primary-btn compact" id="dashboardNewProduct">Adicionar produto</button></article>
+        </div>
+      </section>
+
+      <section class="panel" id="panel-today">
+        <div class="panel-tools">
+          <div><span class="eyebrow">Operação diária</span><h2>O que está disponível hoje?</h2><p>Desative o que não será vendido hoje. Se acabar durante o dia, marque como esgotado.</p></div>
+          <div class="tool-actions"><button class="soft-btn" id="enableAllToday">Disponibilizar todos</button><button class="soft-btn danger-text" id="disableAllToday">Limpar cardápio do dia</button></div>
+        </div>
+        <div class="today-toolbar"><input id="todaySearch" type="search" placeholder="Buscar produto..."><select id="todayCategory"><option>Todos</option><option>Doces</option><option>Salgados</option><option>Bebidas</option><option>Presentes</option><option>Cestas</option></select></div>
+        <div class="today-grid" id="todayGrid"></div>
+      </section>
+
+      <section class="panel" id="panel-products">
+        <div class="panel-tools">
+          <div><span class="eyebrow">Catálogo completo</span><h2>Produtos</h2><p>Itens ocultos continuam cadastrados, mas não aparecem no delivery.</p></div>
+          <button class="primary-btn compact" id="newProductBtn">Novo produto</button>
+        </div>
+        <div class="today-toolbar"><input id="productSearch" type="search" placeholder="Buscar no catálogo..."><select id="productCategoryFilter"><option>Todos</option><option>Doces</option><option>Salgados</option><option>Bebidas</option><option>Presentes</option><option>Cestas</option></select></div>
+        <div class="product-list" id="productList"></div>
+      </section>
+
+      <section class="panel" id="panel-settings">
+        <form class="admin-card settings-form" id="settingsForm">
+          <div class="card-head"><div><span class="eyebrow">Configurações</span><h2>Loja e pedidos</h2></div><button class="primary-btn compact" type="submit">Salvar</button></div>
+          <div class="form-grid two"><label>Nome da loja<input id="settingName" required></label><label>Frase curta<input id="settingTagline"></label></div>
+          <div class="form-grid two"><label>WhatsApp visível<input id="settingPhoneDisplay"></label><label>WhatsApp para pedidos<input id="settingPhoneWhatsApp" inputmode="numeric"></label></div>
+          <label>Endereço<textarea id="settingAddress" rows="2"></textarea></label>
+          <div class="form-grid two"><label>Cidade exibida<input id="settingCity"></label><label>Aviso do rodapé<input id="settingNotice"></label></div>
+          <div class="divider"></div>
+          <h3>Banner principal</h3>
+          <div class="form-grid two"><label>Chamada pequena<input id="settingHeroEyebrow"></label><label>Título<input id="settingHeroTitle"></label></div>
+          <label>Texto do banner<textarea id="settingHeroText" rows="2"></textarea></label>
+          <div class="divider"></div>
+          <h3>Operação</h3>
+          <div class="toggle-grid">
+            <label class="switch-row"><span>Loja aberta para pedidos</span><input type="checkbox" id="settingIsOpen"><i></i></label>
+            <label class="switch-row"><span>Permitir entrega</span><input type="checkbox" id="settingAllowDelivery"><i></i></label>
+            <label class="switch-row"><span>Permitir retirada</span><input type="checkbox" id="settingAllowPickup"><i></i></label>
+          </div>
+          <div class="form-grid two"><label>Pedido mínimo (R$)<input id="settingMinimumOrder" type="number" min="0" step="0.01"></label><label>Taxa de entrega (R$)<input id="settingDeliveryFee" type="number" min="0" step="0.01"></label></div>
+        </form>
+      </section>
+
+      <section class="panel" id="panel-backup">
+        <div class="admin-card backup-card"><span class="eyebrow">Segurança da demonstração</span><h2>Backup dos dados</h2><p>Exporte os dados antes de fazer mudanças grandes. O backup inclui produtos, disponibilidade e configurações salvas neste navegador.</p><div class="backup-actions"><button class="primary-btn compact" id="exportData">Exportar backup</button><label class="soft-btn file-btn">Importar backup<input id="importData" type="file" accept="application/json"></label><button class="soft-btn danger-text" id="resetData">Restaurar demonstração</button></div></div>
+        <div class="admin-card info-card"><h3>Importante sobre esta versão</h3><p>Como o projeto está preparado para GitHub Pages, as alterações ficam no <strong>localStorage do navegador</strong>. Isso é ideal para apresentação e teste. Para a versão definitiva, banco de dados e autenticação devem ficar no servidor para sincronizar alterações em todos os aparelhos.</p></div>
+      </section>
+    </main>
+  </div>
+
+  <div class="modal-backdrop" id="productModalBackdrop"></div>
+  <section class="product-modal" id="productModal" aria-hidden="true">
+    <div class="modal-head"><div><span class="eyebrow">Catálogo</span><h2 id="productModalTitle">Novo produto</h2></div><button id="closeProductModal" aria-label="Fechar">×</button></div>
+    <form id="productForm">
+      <input type="hidden" id="productId">
+      <div class="form-grid two"><label>Nome do produto<input id="productName" required></label><label>Categoria<select id="productCategory"><option>Doces</option><option>Salgados</option><option>Bebidas</option><option>Presentes</option><option>Cestas</option></select></label></div>
+      <div class="form-grid two"><label>Preço (R$)<input id="productPrice" type="number" min="0" step="0.01" required></label><label>URL/caminho da foto<input id="productImageUrl" placeholder="assets/products/foto.jpeg"></label></div>
+      <label>Ou enviar uma foto<input id="productImageFile" type="file" accept="image/*"><small>A foto será comprimida e salva neste navegador.</small></label>
+      <label>Descrição<textarea id="productDescription" rows="3"></textarea></label>
+      <div class="toggle-grid">
+        <label class="switch-row"><span>Ativo no catálogo</span><input type="checkbox" id="productActive" checked><i></i></label>
+        <label class="switch-row"><span>Disponível hoje</span><input type="checkbox" id="productAvailableToday" checked><i></i></label>
+        <label class="switch-row"><span>Marcar como esgotado</span><input type="checkbox" id="productSoldOut"><i></i></label>
+        <label class="switch-row"><span>Produto em destaque</span><input type="checkbox" id="productFeatured"><i></i></label>
+      </div>
+      <div class="modal-actions"><button type="button" class="soft-btn" id="cancelProduct">Cancelar</button><button class="primary-btn compact" type="submit">Salvar produto</button></div>
+    </form>
+  </section>
+
+  <div class="toast" id="toast"></div>
+  <script src="../data.js"></script>
+  <script src="admin.js"></script>
+</body>
+</html>
